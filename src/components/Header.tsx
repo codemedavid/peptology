@@ -23,10 +23,10 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
             {/* Logo and Brand */}
             <button 
               onClick={() => { onMenuClick(); setMobileMenuOpen(false); }}
-              className="flex items-center space-x-2 md:space-x-3 hover:opacity-90 transition-all group flex-shrink-0"
+              className="flex items-center space-x-2 md:space-x-3 hover:opacity-90 transition-all group min-w-0 flex-1 max-w-[calc(100%-130px)] sm:max-w-none sm:flex-initial"
             >
-              <div className="relative">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg flex items-center justify-center group-hover:shadow-xl transition-all overflow-hidden">
+              <div className="relative flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg flex items-center justify-center group-hover:shadow-xl transition-all overflow-hidden border-[3px] border-white ring-2 ring-blue-400">
                   <img 
                     src="/logo.jpg" 
                     alt="My Peptide Journey" 
@@ -37,13 +37,16 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
                   <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3 text-white" />
                 </div>
               </div>
-              <div className="text-left hidden sm:block">
-                <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+              <div className="text-left min-w-0 flex-1">
+                <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
                   My Peptide Journey
                 </h1>
-                <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-600 font-medium flex items-center gap-1">
-                  <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3 text-yellow-500" />
-                  Research-Grade Excellence
+                <p className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs text-gray-600 font-medium flex items-center gap-1">
+                  <Sparkles className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-yellow-500 flex-shrink-0" />
+                  <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    <span className="hidden sm:inline">Research-Grade Excellence</span>
+                    <span className="sm:hidden">Research-Grade</span>
+                  </span>
                 </p>
               </div>
             </button>

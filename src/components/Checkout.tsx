@@ -39,8 +39,8 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
     }
   }, [paymentMethods, selectedPaymentMethod]);
 
-  const shippingCost = totalPrice >= 5000 ? 0 : 150; // Free shipping over ₱5,000
-  const finalTotal = totalPrice + shippingCost;
+  // Shipping fee will be discussed with buyer via chat
+  const finalTotal = totalPrice;
 
   const isDetailsValid = 
     fullName.trim() !== '' &&
@@ -105,9 +105,8 @@ ${cartItems.map(item => {
 }).join('\n\n')}
 
 💰 PRICING
-Subtotal: ₱${totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
-Shipping: ${shippingCost === 0 ? 'FREE' : `₱${shippingCost.toLocaleString('en-PH', { minimumFractionDigits: 0 })}`}
-TOTAL: ₱${finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
+Product Total: ₱${totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
+Shipping Fee: To be discussed
 
 💳 PAYMENT METHOD
 ${paymentMethod?.name || 'N/A'}
@@ -386,25 +385,20 @@ Please confirm this order. Thank you!
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span className="font-medium">${totalPrice.toFixed(2)}</span>
+                    <span className="font-medium">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
+                  <div className="flex justify-between text-gray-600 text-xs">
                     <span>Shipping</span>
-                    <span className="font-medium">
-                      {shippingCost === 0 ? (
-                        <span className="text-green-600">FREE</span>
-                      ) : (
-                        `$${shippingCost.toFixed(2)}`
-                      )}
-                    </span>
+                    <span className="font-medium text-blue-600">To be discussed via chat</span>
                   </div>
                   <div className="border-t-2 border-gray-200 pt-3">
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-gray-900">Total</span>
                       <span className="text-2xl font-bold text-blue-600">
-                        ${finalTotal.toFixed(2)}
+                        ₱{finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                       </span>
                     </div>
+                    <p className="text-xs text-gray-500 mt-1 text-right italic">Shipping fee will be discussed via chat</p>
                   </div>
                 </div>
 
@@ -565,15 +559,9 @@ Please confirm this order. Thank you!
                   <span>Subtotal</span>
                   <span className="font-medium">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-gray-600 text-xs">
                   <span>Shipping</span>
-                  <span className="font-medium">
-                    {shippingCost === 0 ? (
-                      <span className="text-green-600">FREE</span>
-                    ) : (
-                      `₱${shippingCost.toLocaleString('en-PH', { minimumFractionDigits: 0 })}`
-                    )}
-                  </span>
+                  <span className="font-medium text-blue-600">To be discussed via chat</span>
                 </div>
                 <div className="border-t-2 border-gray-200 pt-3">
                   <div className="flex justify-between items-center">
@@ -582,6 +570,7 @@ Please confirm this order. Thank you!
                       ₱{finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                     </span>
                   </div>
+                  <p className="text-xs text-gray-500 mt-1 text-right italic">Shipping fee will be discussed via chat</p>
                 </div>
               </div>
             </div>
