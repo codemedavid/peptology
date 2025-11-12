@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShieldCheck, Package, CreditCard, Sparkles, Heart } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Package, CreditCard, Sparkles, Heart, MessageCircle } from 'lucide-react';
 import type { CartItem } from '../types';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 
@@ -12,6 +12,7 @@ interface CheckoutProps {
 const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) => {
   const { paymentMethods } = usePaymentMethods();
   const [step, setStep] = useState<'details' | 'payment' | 'confirmation'>('details');
+  const [copySuccess, setCopySuccess] = useState(false);
   
   // Customer Details
   const [fullName, setFullName] = useState('');
@@ -58,7 +59,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
     }
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     const paymentMethod = paymentMethods.find(pm => pm.id === selectedPaymentMethod);
     
     // Get current date and time
@@ -75,7 +76,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
     });
     
     const orderDetails = `
-🧪 MY PEPTIDE JOURNEY - NEW ORDER
+🧪 PEPTOLOGY BY ISSA - NEW ORDER
 
 📅 ORDER DATE & TIME
 ${dateTimeStamp}
@@ -107,11 +108,22 @@ ${cartItems.map(item => {
 💳 PAYMENT METHOD
 ${paymentMethod?.name || 'N/A'}
 ${paymentMethod ? `Account: ${paymentMethod.account_number}` : ''}
-
+${notes ? `\n📝 NOTES\n${notes}` : ''}
 
 Please confirm this order. Thank you!
     `.trim();
 
+    // Copy order details to clipboard
+    try {
+      await navigator.clipboard.writeText(orderDetails);
+      console.log('Order details copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+
+    // Store order details in sessionStorage so we can show them on confirmation page
+    sessionStorage.setItem('lastOrderDetails', orderDetails);
+    
     // Send order to Facebook Messenger
     const messengerProfileId = '61581686398210'; // Facebook Profile ID
     const messengerUrl = `https://m.me/${messengerProfileId}`;
@@ -123,23 +135,66 @@ Please confirm this order. Thank you!
     setStep('confirmation');
   };
 
+  const handleCopyOrderDetails = async () => {
+    const orderDetails = sessionStorage.getItem('lastOrderDetails');
+    if (orderDetails) {
+      try {
+        await navigator.clipboard.writeText(orderDetails);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 3000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
+  };
+
   if (step === 'confirmation') {
+    const orderDetails = sessionStorage.getItem('lastOrderDetails');
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-12">
-        <div className="max-w-2xl w-full">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 text-center border-2 border-green-100">
-            <div className="bg-gradient-to-br from-green-400 to-green-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-bounce">
-              <ShieldCheck className="w-14 h-14 text-white" />
+        <div className="max-w-3xl w-full">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-green-100">
+            <div className="text-center mb-8">
+              <div className="bg-gradient-to-br from-green-400 to-green-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-bounce">
+                <ShieldCheck className="w-14 h-14 text-white" />
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-2 flex-wrap">
+                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Messenger Opened!</span>
+                <Sparkles className="w-7 h-7 text-yellow-500" />
+              </h1>
+              <p className="text-gray-600 mb-6 text-base md:text-lg leading-relaxed">
+                Your order details have been copied! 
+                <Heart className="inline w-5 h-5 text-pink-500 mx-1" />
+                Please paste them in Messenger to complete your order.
+              </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-2 flex-wrap">
-              <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Order Sent!</span>
-              <Sparkles className="w-7 h-7 text-yellow-500" />
-            </h1>
-            <p className="text-gray-600 mb-8 text-base md:text-lg leading-relaxed">
-              Your order has been sent to our Messenger. 
-              <Heart className="inline w-5 h-5 text-pink-500 mx-1" />
-              We will confirm your order and send you the payment details shortly!
-            </p>
+
+            {/* Order Details Preview */}
+            {orderDetails && (
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 mb-6 border-2 border-blue-200">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                    📋 Your Order Details
+                  </h3>
+                  <button
+                    onClick={handleCopyOrderDetails}
+                    className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                      copySuccess
+                        ? 'bg-green-500 text-white'
+                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                    }`}
+                  >
+                    {copySuccess ? '✓ Copied!' : '📋 Copy Again'}
+                  </button>
+                </div>
+                <div className="bg-white rounded-lg p-4 max-h-64 overflow-y-auto">
+                  <pre className="text-xs md:text-sm text-gray-700 whitespace-pre-wrap font-mono">
+                    {orderDetails}
+                  </pre>
+                </div>
+              </div>
+            )}
             
             <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl p-6 mb-8 text-left border-2 border-teal-100">
               <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -149,33 +204,51 @@ Please confirm this order. Thank you!
               <ul className="space-y-3 text-sm md:text-base text-gray-700">
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">1️⃣</span>
-                  <span>We'll confirm your order on Messenger within 24 hours</span>
+                  <span><strong>Paste your order details</strong> in the Messenger chat we just opened</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">2️⃣</span>
-                  <span>Send payment via your selected method</span>
+                  <span>We'll confirm your order on Messenger within 24 hours</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">3️⃣</span>
-                  <span>Products carefully packaged and prepared</span>
+                  <span>Send payment via your selected method</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">4️⃣</span>
+                  <span>Products carefully packaged and prepared</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-2xl">5️⃣</span>
                   <span>Delivery arranged with you directly 📦</span>
                 </li>
               </ul>
             </div>
 
-            <button
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                window.location.href = '/';
-              }}
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
-            >
-              <Heart className="w-5 h-5 animate-pulse" />
-              Continue Shopping
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => {
+                  const messengerProfileId = '61581686398210';
+                  const messengerUrl = `https://m.me/${messengerProfileId}`;
+                  window.open(messengerUrl, '_blank');
+                }}
+                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Open Messenger Again
+              </button>
+              <button
+                onClick={() => {
+                  sessionStorage.removeItem('lastOrderDetails');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.location.href = '/';
+                }}
+                className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
+              >
+                <Heart className="w-5 h-5 animate-pulse" />
+                Continue Shopping
+              </button>
+            </div>
           </div>
         </div>
       </div>
