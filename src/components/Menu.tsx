@@ -23,8 +23,17 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems }) => {
     product.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Sort products
+  // Sort products - Complete Set items always at the top
   const sortedProducts = [...filteredProducts].sort((a, b) => {
+    // Check if products are complete sets
+    const aIsCompleteSet = a.name.toLowerCase().includes('complete set');
+    const bIsCompleteSet = b.name.toLowerCase().includes('complete set');
+    
+    // If one is a complete set and the other isn't, prioritize the complete set
+    if (aIsCompleteSet && !bIsCompleteSet) return -1;
+    if (!aIsCompleteSet && bIsCompleteSet) return 1;
+    
+    // If both are complete sets or both are not, apply regular sorting
     switch (sortBy) {
       case 'name':
         return a.name.localeCompare(b.name);
