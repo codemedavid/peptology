@@ -124,14 +124,12 @@ Please confirm this order. Thank you!
     // Store order details in sessionStorage so we can show them on confirmation page
     sessionStorage.setItem('lastOrderDetails', orderDetails);
     
-    // Send order to Facebook Messenger with short prefilled message
-    // Note: Full order details are too long for URL, so we use a short intro message
+    // Send FULL order details to Facebook Messenger automatically
     const messengerProfileId = '61581686398210'; // Facebook Profile ID
-    const shortMessage = `Hi! I have a new order from Peptology by Issa website. I'll paste the full details below.`;
-    const encodedMessage = encodeURIComponent(shortMessage);
+    const encodedMessage = encodeURIComponent(orderDetails);
     const messengerUrl = `https://m.me/${messengerProfileId}?text=${encodedMessage}`;
     
-    // Open Messenger with prefilled intro message
+    // Open Messenger with FULL prefilled order details
     window.open(messengerUrl, '_blank');
     
     // Show confirmation
@@ -163,13 +161,13 @@ Please confirm this order. Thank you!
                 <ShieldCheck className="w-14 h-14 text-white" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-2 flex-wrap">
-                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Almost Done!</span>
+                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Order Ready to Send!</span>
                 <Sparkles className="w-7 h-7 text-yellow-500" />
               </h1>
               <p className="text-gray-600 mb-6 text-base md:text-lg leading-relaxed">
-                Your order details are ready! 
+                Your COMPLETE order details are automatically filled in Messenger! 
                 <Heart className="inline w-5 h-5 text-pink-500 mx-1" />
-                We've opened Messenger for you - just paste the details below to complete your order.
+                Just click the SEND button in Messenger to complete your order.
               </p>
             </div>
 
@@ -207,11 +205,11 @@ Please confirm this order. Thank you!
               <ul className="space-y-3 text-sm md:text-base text-gray-700">
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">1️⃣</span>
-                  <span><strong>Copy your order details</strong> using the button above (already copied!)</span>
+                  <span><strong>Check Messenger</strong> - Your complete order details are already typed in the message box!</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">2️⃣</span>
-                  <span><strong>Paste in Messenger</strong> - Go to the conversation we opened and paste your order</span>
+                  <span><strong>Click SEND</strong> - Just hit the send button in Messenger to submit your order</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">3️⃣</span>
@@ -235,9 +233,9 @@ Please confirm this order. Thank you!
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => {
+                  const orderDetails = sessionStorage.getItem('lastOrderDetails');
                   const messengerProfileId = '61581686398210';
-                  const shortMessage = `Hi! I have a new order from Peptology by Issa website. I'll paste the full details below.`;
-                  const encodedMessage = encodeURIComponent(shortMessage);
+                  const encodedMessage = orderDetails ? encodeURIComponent(orderDetails) : '';
                   const messengerUrl = `https://m.me/${messengerProfileId}?text=${encodedMessage}`;
                   window.open(messengerUrl, '_blank');
                 }}
