@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, FlaskConical, Sparkles, Dumbbell, Heart, Brain } from 'lucide-react';
+import { Grid, FlaskConical, Sparkles, Dumbbell, Heart, Brain, Package, Zap } from 'lucide-react';
 import { useCategories } from '../hooks/useCategories';
 
 interface SubNavProps {
@@ -14,16 +14,19 @@ const iconMap: { [key: string]: React.ReactElement } = {
   Dumbbell: <Dumbbell className="w-5 h-5" />,
   Heart: <Heart className="w-5 h-5" />,
   Brain: <Brain className="w-5 h-5" />,
+  Package: <Package className="w-5 h-5" />,
+  Zap: <Zap className="w-5 h-5" />,
 };
 
-// Cute gradient colors for each category
+// Soft glam gradient colors for each category
 const categoryColors: { [key: string]: string } = {
-  all: 'from-teal-400 to-teal-600',
-  research: 'from-emerald-400 to-emerald-600',
-  cosmetic: 'from-green-400 to-green-600',
-  performance: 'from-orange-400 to-orange-600',
-  healing: 'from-red-400 to-red-600',
-  cognitive: 'from-cyan-400 to-cyan-600',
+  all: 'from-rosegold-400 to-primary-500',
+  'research-peptides': 'from-primary-400 to-primary-600',
+  'cosmetic-peptides': 'from-dustyrose-400 to-dustyrose-600',
+  'performance-enhancement': 'from-rosegold-400 to-rosegold-600',
+  'healing-recovery': 'from-primary-500 to-brown-500',
+  'cognitive-enhancement': 'from-dustyrose-400 to-primary-500',
+  'complete-sets': 'from-rosegold-500 to-dustyrose-500',
 };
 
 const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) => {
@@ -44,7 +47,7 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
   }
 
   return (
-    <nav className="hidden md:block bg-white shadow-sm sticky top-[72px] md:top-[80px] lg:top-[88px] z-40 border-b border-gray-100">
+    <nav className="hidden md:block bg-gradient-to-r from-cream-50 to-white shadow-sm sticky top-[72px] md:top-[80px] lg:top-[88px] z-40 border-b border-primary-100">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex items-center space-x-2 md:space-x-3 overflow-x-auto py-2 md:py-3 lg:py-4 scrollbar-hide">
           {categories.map((category) => {
@@ -61,11 +64,11 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
                   ${
                     isSelected
                       ? `bg-gradient-to-r ${gradientColor} text-white shadow-lg`
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-gray-300'
+                      : 'bg-cream-50 text-brown-700 hover:bg-primary-50 border border-cream-200 hover:border-primary-300'
                   }
                 `}
               >
-                <span className={isSelected ? 'text-white' : 'text-gray-600'}>
+                <span className={isSelected ? 'text-white' : 'text-brown-600'}>
                   {iconMap[category.icon] || <Grid className="w-4 h-4 md:w-5 md:h-5" />}
                 </span>
                 <span>{category.name}</span>

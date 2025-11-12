@@ -179,19 +179,14 @@ const Cart: React.FC<CartProps> = ({
                   <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span className="font-semibold">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                 </div>
-                <div className="flex justify-between text-gray-700 text-xs md:text-sm italic">
-                  <span>Shipping</span>
-                  <span className="text-teal-600 font-medium">To be discussed</span>
-                </div>
 
                 <div className="border-t-2 border-dashed border-gray-200 pt-3 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-base md:text-lg font-bold text-gray-900">Total</span>
-                    <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-rosegold-600 to-primary-600 bg-clip-text text-transparent">
                       ₱{finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1 text-right italic">+ Shipping fee (to be discussed)</p>
                 </div>
               </div>
 
@@ -223,7 +218,7 @@ const Cart: React.FC<CartProps> = ({
                 </p>
                 <p className="flex items-center gap-2 text-xs md:text-sm text-gray-600">
                   <span className="text-green-500 text-lg">✓</span>
-                  Fast delivery 🚚
+                  Research-grade quality
                 </p>
               </div>
             </div>

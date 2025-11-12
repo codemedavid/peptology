@@ -85,7 +85,7 @@ Name: ${fullName}
 Email: ${email}
 Phone: ${phone}
 
-📦 SHIPPING ADDRESS
+📍 DELIVERY ADDRESS
 ${address}
 ${city}, ${state} ${zipCode}
 ${country}
@@ -101,9 +101,8 @@ ${cartItems.map(item => {
   return line;
 }).join('\n\n')}
 
-💰 PRICING
-Product Total: ₱${totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
-Shipping Fee: To be discussed
+💰 TOTAL AMOUNT
+₱${totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
 
 💳 PAYMENT METHOD
 ${paymentMethod?.name || 'N/A'}
@@ -114,11 +113,10 @@ Please confirm this order. Thank you!
     `.trim();
 
     // Send order to Facebook Messenger
-    const facebookPageId = '61573812453289';
-    const encodedMessage = encodeURIComponent(orderDetails);
-    const messengerUrl = `https://m.me/${facebookPageId}?text=${encodedMessage}`;
+    const messengerProfileId = '61581686398210'; // Facebook Profile ID
+    const messengerUrl = `https://m.me/${messengerProfileId}`;
     
-    // Open Facebook Messenger
+    // Open Messenger
     window.open(messengerUrl, '_blank');
     
     // Show confirmation
@@ -138,7 +136,7 @@ Please confirm this order. Thank you!
               <Sparkles className="w-7 h-7 text-yellow-500" />
             </h1>
             <p className="text-gray-600 mb-8 text-base md:text-lg leading-relaxed">
-              Your order has been sent to our Facebook Messenger. 
+              Your order has been sent to our Messenger. 
               <Heart className="inline w-5 h-5 text-pink-500 mx-1" />
               We will confirm your order and send you the payment details shortly!
             </p>
@@ -151,7 +149,7 @@ Please confirm this order. Thank you!
               <ul className="space-y-3 text-sm md:text-base text-gray-700">
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">1️⃣</span>
-                  <span>We'll confirm your order on Facebook Messenger within 24 hours</span>
+                  <span>We'll confirm your order on Messenger within 24 hours</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">2️⃣</span>
@@ -159,11 +157,11 @@ Please confirm this order. Thank you!
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">3️⃣</span>
-                  <span>Products carefully packaged and shipped</span>
+                  <span>Products carefully packaged and prepared</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">4️⃣</span>
-                  <span>Delivery in 3-5 business days 🚚</span>
+                  <span>Delivery arranged with you directly 📦</span>
                 </li>
               </ul>
             </div>
@@ -255,11 +253,11 @@ Please confirm this order. Thank you!
                 </div>
               </div>
 
-              {/* Shipping Address */}
+              {/* Delivery Address */}
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-5 md:p-6 border-2 border-purple-100">
                 <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
-                  <span className="text-2xl">📦</span>
-                  Shipping Address
+                  <span className="text-2xl">📍</span>
+                  Delivery Address
                 </h2>
                 <div className="space-y-4">
                   <div>
@@ -382,18 +380,13 @@ Please confirm this order. Thank you!
                     <span>Subtotal</span>
                     <span className="font-medium">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600 text-xs">
-                    <span>Shipping</span>
-                    <span className="font-medium text-teal-600">To be discussed via chat</span>
-                  </div>
                   <div className="border-t-2 border-gray-200 pt-3">
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-gray-900">Total</span>
-                      <span className="text-2xl font-bold text-teal-600">
+                      <span className="text-2xl font-bold bg-gradient-to-r from-rosegold-600 to-primary-600 bg-clip-text text-transparent">
                         ₱{finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1 text-right italic">Shipping fee will be discussed via chat</p>
                   </div>
                 </div>
               </div>
@@ -539,18 +532,13 @@ Please confirm this order. Thank you!
                   <span>Subtotal</span>
                   <span className="font-medium">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                 </div>
-                <div className="flex justify-between text-gray-600 text-xs">
-                  <span>Shipping</span>
-                  <span className="font-medium text-blue-600">To be discussed via chat</span>
-                </div>
                 <div className="border-t-2 border-gray-200 pt-3">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-gray-900">Total</span>
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-rosegold-600 to-primary-600 bg-clip-text text-transparent">
                       ₱{finalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1 text-right italic">Shipping fee will be discussed via chat</p>
                 </div>
               </div>
             </div>

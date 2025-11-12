@@ -158,6 +158,20 @@ const AdminDashboard: React.FC = () => {
         // Remove read-only fields and relations before updating
         const { id, created_at, updated_at, variations, ...updateData } = formData as any;
         
+        // Ensure numeric fields are actually numbers
+        if (updateData.base_price !== undefined && updateData.base_price !== null) {
+          updateData.base_price = Number(updateData.base_price);
+        }
+        if (updateData.discount_price !== undefined && updateData.discount_price !== '') {
+          updateData.discount_price = updateData.discount_price ? Number(updateData.discount_price) : null;
+        }
+        if (updateData.purity_percentage !== undefined && updateData.purity_percentage !== null) {
+          updateData.purity_percentage = Number(updateData.purity_percentage);
+        }
+        if (updateData.stock_quantity !== undefined && updateData.stock_quantity !== null) {
+          updateData.stock_quantity = Number(updateData.stock_quantity);
+        }
+        
         // Clean up the data - only remove undefined and empty strings, keep false, 0, and null
         const cleanedData = Object.fromEntries(
           Object.entries(updateData).filter(([key, value]) => {
@@ -169,8 +183,14 @@ const AdminDashboard: React.FC = () => {
           })
         ) as Partial<Product>;
         
-        console.log('Saving product with data:', cleanedData);
+        console.log('Original formData:', formData);
+        console.log('Update data before cleaning:', updateData);
+        console.log('Cleaned data being sent to database:', cleanedData);
+        
         const result = await updateProduct(editingProduct.id, cleanedData);
+        
+        console.log('Update result:', result);
+        
         if (!result.success) {
           throw new Error(result.error);
         }
@@ -239,29 +259,29 @@ const AdminDashboard: React.FC = () => {
   // Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 flex items-center justify-center px-4">
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-2xl p-6 md:p-10 w-full max-w-md border-2 border-teal-100">
-          <div className="text-center mb-6 md:mb-8">
-            <div className="relative mx-auto w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-xl overflow-hidden border-2 border-white">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 flex items-center justify-center px-3 sm:px-4">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-10 w-full max-w-md border-2 border-teal-100">
+          <div className="text-center mb-4 sm:mb-6 md:mb-8">
+            <div className="relative mx-auto w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 md:mb-6 shadow-xl overflow-hidden border-2 border-white">
               <img 
-                src="/logo.jpg" 
-                alt="KAEDRA" 
+                src="/logo.jpeg" 
+                alt="Peptology by Issa" 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <Lock className="h-8 w-8 md:h-10 md:w-10 text-white" />
+                <Lock className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-white" />
               </div>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">Admin Access</h1>
-            <p className="text-sm md:text-base text-gray-600 flex items-center justify-center gap-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2 bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">Admin Access</h1>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 flex items-center justify-center gap-1 sm:gap-2">
               Enter password to continue
               <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-yellow-500" />
             </p>
           </div>
           
           <form onSubmit={handleLogin}>
-            <div className="mb-4 md:mb-6">
-              <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Password</label>
+            <div className="mb-3 sm:mb-4 md:mb-6">
+              <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2">Password</label>
               <input
                 type="password"
                 value={password}
@@ -271,13 +291,13 @@ const AdminDashboard: React.FC = () => {
                 required
               />
               {loginError && (
-                <p className="text-red-500 text-xs md:text-sm mt-2 flex items-center gap-1">
+                <p className="text-red-500 text-xs md:text-sm mt-1.5 sm:mt-2 flex items-center gap-1">
                   ❌ {loginError}
                 </p>
               )}
             </div>
             
-            <button type="submit" className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-green-500 hover:from-teal-600 hover:via-emerald-600 hover:to-green-600 text-white py-2.5 md:py-3 rounded-xl font-bold text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+            <button type="submit" className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-green-500 hover:from-teal-600 hover:via-emerald-600 hover:to-green-600 text-white py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
               Access Dashboard ✨
             </button>
           </form>
@@ -334,13 +354,13 @@ const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 md:py-8">
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 border-2 border-teal-100">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4 md:py-8">
+          <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl p-3 sm:p-4 md:p-6 lg:p-8 space-y-3 sm:space-y-4 md:space-y-6 border-2 border-teal-100">
             {/* Basic Information */}
             <div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">📝</span>
-                Basic Information
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">📝</span>
+                <span className="text-sm sm:text-base md:text-lg">Basic Information</span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div className="md:col-span-2">
@@ -400,9 +420,9 @@ const AdminDashboard: React.FC = () => {
 
             {/* Scientific Details */}
             <div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">🧪</span>
-                Scientific Details
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">🧪</span>
+                <span className="text-sm sm:text-base md:text-lg">Scientific Details</span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
@@ -464,11 +484,11 @@ const AdminDashboard: React.FC = () => {
             </div>
 
             {/* Complete Set Inclusions */}
-            <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border-2 border-teal-200 rounded-xl p-4 md:p-6">
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">📦</span>
-                Complete Set Inclusions
-                <span className="text-xs font-normal text-gray-600">(Optional)</span>
+            <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border-2 border-teal-200 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6">
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">📦</span>
+                <span className="text-sm sm:text-base md:text-lg">Complete Set Inclusions</span>
+                <span className="text-[10px] sm:text-xs font-normal text-gray-600">(Optional)</span>
               </h3>
               <div>
                 <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5 md:mb-2">
@@ -493,9 +513,9 @@ const AdminDashboard: React.FC = () => {
 
             {/* Inventory */}
             <div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">📦</span>
-                Inventory & Availability
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">📦</span>
+                <span className="text-sm sm:text-base md:text-lg">Inventory & Availability</span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
@@ -535,9 +555,9 @@ const AdminDashboard: React.FC = () => {
 
             {/* Discount */}
             <div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">💰</span>
-                Discount Pricing
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">💰</span>
+                <span className="text-sm sm:text-base md:text-lg">Discount Pricing</span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
@@ -568,9 +588,9 @@ const AdminDashboard: React.FC = () => {
 
             {/* Image */}
             <div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <span className="text-xl md:text-2xl">🖼️</span>
-                Product Image
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl">🖼️</span>
+                <span className="text-sm sm:text-base md:text-lg">Product Image</span>
               </h3>
               <ImageUpload
                 currentImage={formData.image_url || undefined}
@@ -836,23 +856,23 @@ const AdminDashboard: React.FC = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="bg-white/90 backdrop-blur-sm shadow-lg border-b-2 border-blue-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center space-x-4">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+            <div className="flex items-center justify-between h-14 md:h-16">
+              <div className="flex items-center space-x-2 md:space-x-4">
                 <button
                   onClick={() => setCurrentView('dashboard')}
-                  className="text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-2 group"
+                  className="text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1 md:gap-2 group"
                 >
-                  <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-                  Dashboard
+                  <ArrowLeft className="h-4 w-4 md:h-5 md:w-5 group-hover:-translate-x-1 transition-transform" />
+                  <span className="text-sm md:text-base">Dashboard</span>
                 </button>
-                <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">⚙️ Site Settings</h1>
+                <h1 className="text-base md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">⚙️ Site Settings</h1>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 md:py-8">
           <SiteSettingsManager />
         </div>
       </div>
@@ -876,8 +896,8 @@ const AdminDashboard: React.FC = () => {
             <div className="flex items-center space-x-2 md:space-x-3">
               <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg overflow-hidden border-2 border-white">
                 <img 
-                  src="/logo.jpg" 
-                  alt="KAEDRA" 
+                  src="/logo.jpeg" 
+                  alt="Peptology by Issa" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -911,132 +931,132 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4 md:py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-6 mb-3 sm:mb-4 md:mb-8">
           <button
             onClick={() => setCurrentView('products')}
-            className="bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-3 md:p-6 border-2 border-teal-100 transform hover:-translate-y-1 text-left cursor-pointer"
+            className="bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-2 sm:p-3 md:p-6 border-2 border-teal-100 transform hover:-translate-y-1 text-left cursor-pointer"
           >
             <div className="flex items-center">
-              <div className="p-2 md:p-3 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg md:rounded-xl shadow-md">
-                <Package className="h-4 w-4 md:h-6 md:w-6 text-white" />
+              <div className="p-1.5 sm:p-2 md:p-3 bg-gradient-to-br from-teal-400 to-teal-600 rounded-md sm:rounded-lg md:rounded-xl shadow-md shrink-0">
+                <Package className="h-3 w-3 sm:h-4 sm:w-4 md:h-6 md:w-6 text-white" />
               </div>
-              <div className="ml-2 md:ml-4">
-                <p className="text-[10px] md:text-sm font-medium text-gray-600">Total Products</p>
-                <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">{totalProducts}</p>
+              <div className="ml-1.5 sm:ml-2 md:ml-4 min-w-0">
+                <p className="text-[9px] sm:text-[10px] md:text-sm font-medium text-gray-600 leading-tight">Total Products</p>
+                <p className="text-base sm:text-xl md:text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent leading-tight">{totalProducts}</p>
               </div>
             </div>
           </button>
 
           <button
             onClick={() => setCurrentView('products')}
-            className="bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-3 md:p-6 border-2 border-green-100 transform hover:-translate-y-1 text-left cursor-pointer"
+            className="bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-2 sm:p-3 md:p-6 border-2 border-green-100 transform hover:-translate-y-1 text-left cursor-pointer"
           >
             <div className="flex items-center">
-              <div className="p-2 md:p-3 bg-gradient-to-br from-green-400 to-green-600 rounded-lg md:rounded-xl shadow-md">
-                <TrendingUp className="h-4 w-4 md:h-6 md:w-6 text-white" />
+              <div className="p-1.5 sm:p-2 md:p-3 bg-gradient-to-br from-green-400 to-green-600 rounded-md sm:rounded-lg md:rounded-xl shadow-md shrink-0">
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 md:h-6 md:w-6 text-white" />
               </div>
-              <div className="ml-2 md:ml-4">
-                <p className="text-[10px] md:text-sm font-medium text-gray-600">Available</p>
-                <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">{availableProducts}</p>
+              <div className="ml-1.5 sm:ml-2 md:ml-4 min-w-0">
+                <p className="text-[9px] sm:text-[10px] md:text-sm font-medium text-gray-600 leading-tight">Available</p>
+                <p className="text-base sm:text-xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent leading-tight">{availableProducts}</p>
               </div>
             </div>
           </button>
 
           <button
             onClick={() => setCurrentView('products')}
-            className="bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-3 md:p-6 border-2 border-purple-100 transform hover:-translate-y-1 text-left cursor-pointer"
+            className="bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-2 sm:p-3 md:p-6 border-2 border-purple-100 transform hover:-translate-y-1 text-left cursor-pointer"
           >
             <div className="flex items-center">
-              <div className="p-2 md:p-3 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg md:rounded-xl shadow-md">
-                <Sparkles className="h-4 w-4 md:h-6 md:w-6 text-white" />
+              <div className="p-1.5 sm:p-2 md:p-3 bg-gradient-to-br from-purple-400 to-purple-600 rounded-md sm:rounded-lg md:rounded-xl shadow-md shrink-0">
+                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 md:h-6 md:w-6 text-white" />
               </div>
-              <div className="ml-2 md:ml-4">
-                <p className="text-[10px] md:text-sm font-medium text-gray-600">Featured</p>
-                <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{featuredProducts}</p>
+              <div className="ml-1.5 sm:ml-2 md:ml-4 min-w-0">
+                <p className="text-[9px] sm:text-[10px] md:text-sm font-medium text-gray-600 leading-tight">Featured</p>
+                <p className="text-base sm:text-xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">{featuredProducts}</p>
               </div>
             </div>
           </button>
 
           <button
             onClick={() => setCurrentView('categories')}
-            className="bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-3 md:p-6 border-2 border-pink-100 transform hover:-translate-y-1 text-left cursor-pointer"
+            className="bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all p-2 sm:p-3 md:p-6 border-2 border-pink-100 transform hover:-translate-y-1 text-left cursor-pointer"
           >
             <div className="flex items-center">
-              <div className="p-2 md:p-3 bg-gradient-to-br from-pink-400 to-pink-600 rounded-lg md:rounded-xl shadow-md">
-                <Users className="h-4 w-4 md:h-6 md:w-6 text-white" />
+              <div className="p-1.5 sm:p-2 md:p-3 bg-gradient-to-br from-pink-400 to-pink-600 rounded-md sm:rounded-lg md:rounded-xl shadow-md shrink-0">
+                <Users className="h-3 w-3 sm:h-4 sm:w-4 md:h-6 md:w-6 text-white" />
               </div>
-              <div className="ml-2 md:ml-4">
-                <p className="text-[10px] md:text-sm font-medium text-gray-600">Categories</p>
-                <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">{categories.length}</p>
+              <div className="ml-1.5 sm:ml-2 md:ml-4 min-w-0">
+                <p className="text-[9px] sm:text-[10px] md:text-sm font-medium text-gray-600 leading-tight">Categories</p>
+                <p className="text-base sm:text-xl md:text-3xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent leading-tight">{categories.length}</p>
               </div>
             </div>
           </button>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-6 border-2 border-teal-100">
-            <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-              Quick Actions
-              <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+          <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl p-3 sm:p-4 md:p-6 border-2 border-teal-100">
+            <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+              <span className="text-sm sm:text-base md:text-lg">Quick Actions</span>
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-yellow-500" />
             </h3>
-            <div className="space-y-1.5 md:space-y-2">
+            <div className="space-y-1 sm:space-y-1.5 md:space-y-2">
               <button
                 onClick={handleAddProduct}
-                className="w-full flex items-center gap-2 md:gap-3 p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
+                className="w-full flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
               >
-                <div className="p-1.5 md:p-2 bg-gradient-to-br from-teal-400 to-teal-600 rounded-md md:rounded-lg text-white">
-                  <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                <div className="p-1 sm:p-1.5 md:p-2 bg-gradient-to-br from-teal-400 to-teal-600 rounded-md md:rounded-lg text-white shrink-0">
+                  <Plus className="h-3 w-3 sm:h-3 sm:w-3 md:h-5 md:w-5" />
                 </div>
-                <span className="text-xs md:text-sm font-medium text-gray-900">Add New Product</span>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-gray-900">Add New Product</span>
               </button>
               <button
                 onClick={() => setCurrentView('products')}
-                className="w-full flex items-center gap-2 md:gap-3 p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
+                className="w-full flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
               >
-                <div className="p-1.5 md:p-2 bg-gradient-to-br from-purple-400 to-purple-600 rounded-md md:rounded-lg text-white">
-                  <Package className="h-3 w-3 md:h-5 md:w-5" />
+                <div className="p-1 sm:p-1.5 md:p-2 bg-gradient-to-br from-purple-400 to-purple-600 rounded-md md:rounded-lg text-white shrink-0">
+                  <Package className="h-3 w-3 sm:h-3 sm:w-3 md:h-5 md:w-5" />
                 </div>
-                <span className="text-xs md:text-sm font-medium text-gray-900">Manage Products</span>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-gray-900">Manage Products</span>
               </button>
               <button
                 onClick={() => setCurrentView('categories')}
-                className="w-full flex items-center gap-2 md:gap-3 p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
+                className="w-full flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
               >
-                <div className="p-1.5 md:p-2 bg-gradient-to-br from-pink-400 to-pink-600 rounded-md md:rounded-lg text-white">
-                  <FolderOpen className="h-3 w-3 md:h-5 md:w-5" />
+                <div className="p-1 sm:p-1.5 md:p-2 bg-gradient-to-br from-pink-400 to-pink-600 rounded-md md:rounded-lg text-white shrink-0">
+                  <FolderOpen className="h-3 w-3 sm:h-3 sm:w-3 md:h-5 md:w-5" />
                 </div>
-                <span className="text-xs md:text-sm font-medium text-gray-900">Manage Categories</span>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-gray-900">Manage Categories</span>
               </button>
               <button
                 onClick={() => setCurrentView('payments')}
-                className="w-full flex items-center gap-2 md:gap-3 p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
+                className="w-full flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
               >
-                <div className="p-1.5 md:p-2 bg-gradient-to-br from-green-400 to-green-600 rounded-md md:rounded-lg text-white">
-                  <CreditCard className="h-3 w-3 md:h-5 md:w-5" />
+                <div className="p-1 sm:p-1.5 md:p-2 bg-gradient-to-br from-green-400 to-green-600 rounded-md md:rounded-lg text-white shrink-0">
+                  <CreditCard className="h-3 w-3 sm:h-3 sm:w-3 md:h-5 md:w-5" />
                 </div>
-                <span className="text-xs md:text-sm font-medium text-gray-900">Payment Methods</span>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-gray-900">Payment Methods</span>
               </button>
               <button
                 onClick={() => setCurrentView('settings')}
-                className="w-full flex items-center gap-2 md:gap-3 p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
+                className="w-full flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg md:rounded-xl transition-all group"
               >
-                <div className="p-1.5 md:p-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-md md:rounded-lg text-white">
-                  <Settings className="h-3 w-3 md:h-5 md:w-5" />
+                <div className="p-1 sm:p-1.5 md:p-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-md md:rounded-lg text-white shrink-0">
+                  <Settings className="h-3 w-3 sm:h-3 sm:w-3 md:h-5 md:w-5" />
                 </div>
-                <span className="text-xs md:text-sm font-medium text-gray-900">Site Settings</span>
+                <span className="text-[11px] sm:text-xs md:text-sm font-medium text-gray-900">Site Settings</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-6 border-2 border-purple-100">
-            <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-              Categories Overview
-              <Heart className="w-4 h-4 md:w-5 md:h-5 text-pink-500 animate-pulse" />
+          <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl p-3 sm:p-4 md:p-6 border-2 border-purple-100">
+            <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
+              <span className="text-sm sm:text-base md:text-lg">Categories Overview</span>
+              <Heart className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-pink-500 animate-pulse" />
             </h3>
-            <div className="space-y-2 md:space-y-3">
+            <div className="space-y-1 sm:space-y-2 md:space-y-3">
               {categoryCounts.map((category, index) => {
                 const colors = [
                   'from-teal-400 to-teal-600',
@@ -1047,9 +1067,9 @@ const AdminDashboard: React.FC = () => {
                   'from-cyan-400 to-cyan-600'
                 ];
                 return (
-                  <div key={category.id} className="flex items-center justify-between py-1.5 md:py-2 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 rounded-lg md:rounded-xl px-2 md:px-3 transition-all">
-                    <span className="text-xs md:text-sm font-semibold text-gray-900">{category.name}</span>
-                    <span className={`text-[10px] md:text-sm font-bold text-white bg-gradient-to-r ${colors[index % colors.length]} px-2 md:px-3 py-0.5 md:py-1 rounded-full shadow-md`}>
+                  <div key={category.id} className="flex items-center justify-between py-1 sm:py-1.5 md:py-2 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 rounded-lg md:rounded-xl px-1.5 sm:px-2 md:px-3 transition-all">
+                    <span className="text-[11px] sm:text-xs md:text-sm font-semibold text-gray-900 truncate">{category.name}</span>
+                    <span className={`text-[9px] sm:text-[10px] md:text-sm font-bold text-white bg-gradient-to-r ${colors[index % colors.length]} px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 rounded-full shadow-md shrink-0 ml-2`}>
                       {category.count}
                     </span>
                   </div>

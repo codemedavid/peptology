@@ -58,7 +58,7 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems }) => {
         />
       )}
       
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-teal-50 to-emerald-50">
+      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-primary-50 to-rosegold-50">
         <Hero />
       
       <div className="container mx-auto px-3 md:px-4 py-4 md:py-6 lg:py-8">
@@ -72,13 +72,13 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems }) => {
               placeholder="Search peptides..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 md:pl-12 pr-3 md:pr-4 py-2.5 md:py-3 lg:py-4 text-sm md:text-base border-2 border-gray-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm hover:shadow-md transition-all bg-white"
+              className="w-full pl-9 md:pl-12 pr-3 md:pr-4 py-2.5 md:py-3 lg:py-4 text-sm md:text-base border-2 border-cream-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent shadow-sm hover:shadow-md transition-all bg-white"
             />
           </div>
 
           {/* Sort Dropdown */}
-          <div className="flex items-center gap-2 md:gap-3 sm:w-auto bg-white rounded-xl md:rounded-2xl px-3 md:px-4 py-1.5 md:py-2 border-2 border-gray-200 shadow-sm">
-            <Filter className="text-gray-500 w-4 h-4 md:w-5 md:h-5" />
+          <div className="flex items-center gap-2 md:gap-3 sm:w-auto bg-white rounded-xl md:rounded-2xl px-3 md:px-4 py-1.5 md:py-2 border-2 border-cream-200 shadow-sm">
+            <Filter className="text-brown-500 w-4 h-4 md:w-5 md:h-5" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'purity')}
@@ -93,21 +93,21 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems }) => {
 
         {/* Results Count */}
         <div className="mb-4 md:mb-6 flex items-center gap-1.5 md:gap-2">
-          <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" />
-          <p className="text-gray-700 font-medium text-xs md:text-sm lg:text-base">
-            Showing <span className="font-bold text-teal-600">{sortedProducts.length}</span> premium product{sortedProducts.length !== 1 ? 's' : ''}
+          <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-rosegold-500" />
+          <p className="text-brown-700 font-medium text-xs md:text-sm lg:text-base">
+            Showing <span className="font-bold text-rosegold-600">{sortedProducts.length}</span> premium product{sortedProducts.length !== 1 ? 's' : ''}
           </p>
         </div>
 
         {/* Products Grid */}
         {sortedProducts.length === 0 ? (
           <div className="text-center py-10 md:py-16 lg:py-20">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-10 lg:p-12 max-w-md mx-auto border-2 border-gray-100">
-              <div className="bg-gradient-to-br from-teal-100 to-emerald-100 w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
-                <Package className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-teal-600" />
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-10 lg:p-12 max-w-md mx-auto border-2 border-primary-200">
+              <div className="bg-gradient-to-br from-primary-100 to-rosegold-100 w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <Package className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-primary-600" />
               </div>
-              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2 md:mb-3">No products found</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-brown-800 mb-2 md:mb-3">No products found</h3>
+              <p className="text-sm md:text-base text-brown-600 mb-4 md:mb-6">
                 {searchQuery 
                   ? `No products match "${searchQuery}". Try a different search term.`
                   : 'No products available in this category. Please check back soon!'}
@@ -115,7 +115,7 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems }) => {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all font-medium text-sm md:text-base shadow-md hover:shadow-lg transform hover:scale-105"
+                  className="bg-gradient-to-r from-rosegold-500 to-primary-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl hover:from-rosegold-600 hover:to-primary-700 transition-all font-medium text-sm md:text-base shadow-md hover:shadow-lg transform hover:scale-105"
                 >
                   Clear Search
                 </button>

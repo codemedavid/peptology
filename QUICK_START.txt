@@ -1,0 +1,147 @@
+╔══════════════════════════════════════════════════════════════╗
+║                 PEPTOLOGY BY ISSA                            ║
+║              Quick Start Guide                               ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ COMPLETED TASKS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Dependencies installed
+✓ Theme transformed to Soft Glam (Rose Gold/Dusty Rose/Cream)
+✓ Brand updated to "Peptology by Issa"
+✓ 14 products added to migration
+✓ Color system completely redesigned
+✓ All components updated with new colors
+✓ Build verified (successful!)
+
+🎨 NEW THEME:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Rose Gold (#ea6d54) - Primary accent
+• Dusty Rose (#d75e73) - Secondary accent  
+• Muted Brown (#8b7465) - Text
+• Cream (#f5f0ea) - Backgrounds
+• Primary (#d08b72) - Base color
+
+📦 YOUR PRODUCTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. BA3 - ₱120              8. GTT (Gluta) - ₱1,400
+2. BA10 - ₱150             9. NJ500 (NAD+) - ₱1,500
+3. 5AD (AOD) - ₱1,600     10. CGL5 (Cagri) - ₱2,100
+4. SK5 (Selank) - ₱900    11. KPV10 - ₱1,300
+5. XA5 (Semax) - ₱800     12. LC216 (Lipo-C) - ₱1,500
+6. CU50 (GHK-Cu) - ₱800   13. TR15 Set - ₱2,500
+7. MS10 (MOTs-C) - ₱1,300 14. TR30 Set - ₱3,000
+
+🚀 NEXT STEPS (3 Easy Steps):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: CREATE .env FILE
+────────────────────────────────────────────────────────────
+Create a file named ".env" in the project root with:
+
+VITE_SUPABASE_URL=your_supabase_url_here
+VITE_SUPABASE_ANON_KEY=your_supabase_key_here
+
+Get these from: https://supabase.com → Your Project → Settings → API
+
+
+STEP 2: SETUP DATABASE
+────────────────────────────────────────────────────────────
+Option A - Supabase Dashboard (Easiest):
+1. Go to your Supabase Dashboard
+2. Click "SQL Editor"
+3. Copy/paste the migration files from supabase/migrations/
+4. Run them in order (oldest to newest)
+5. Make sure the last one is: 
+   20250112000004_peptology_by_issa_products.sql
+
+Option B - Supabase CLI:
+npm install -g supabase
+supabase link --project-ref your-project-ref
+supabase db push
+
+
+STEP 3: START THE APP
+────────────────────────────────────────────────────────────
+npm run dev
+
+Then open: http://localhost:5173
+
+Admin Panel: http://localhost:5173/admin
+Password: Peptide@Admin!2025
+
+
+📚 DOCUMENTATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ PEPTOLOGY_SETUP_GUIDE.md - Complete setup instructions
+✓ TRANSFORMATION_SUMMARY.md - What was changed
+✓ COLOR_PALETTE_REFERENCE.md - Design system guide
+✓ This file (QUICK_START.txt) - Quick reference
+
+
+🎯 AFTER SETUP:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Upload product images in admin panel
+□ Configure payment methods (GCash, Maya, etc.)
+□ Update site settings (contact info, etc.)
+□ Change admin password for security
+□ Test the checkout process
+□ Deploy to Vercel or your hosting
+
+
+💡 QUICK TIPS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Product images should be 1:1 ratio (square)
+• Use high-quality images (min 800x800px)
+• Admin panel is at /admin
+• Facebook Messenger button is already set up
+• All prices are in Philippine Pesos (₱)
+
+
+🆘 TROUBLESHOOTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: "Cannot connect to Supabase"
+→ Check .env file exists and has correct credentials
+
+Problem: "No products showing"
+→ Make sure migrations are applied to database
+
+Problem: "Build errors"
+→ Delete node_modules and run: npm install
+
+Problem: "Module not found"
+→ Restart the dev server: npm run dev
+
+
+📞 COMMANDS REFERENCE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+npm run dev        - Start development server
+npm run build      - Build for production
+npm run preview    - Preview production build
+npm run lint       - Check code quality
+
+
+🎨 COLOR CODES (Quick Reference):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Rose Gold:    #ea6d54
+Dusty Rose:   #d75e73
+Muted Brown:  #8b7465
+Cream:        #f5f0ea
+Primary:      #d08b72
+
+
+🎉 YOU'RE READY!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your beautiful Peptology by Issa e-commerce site is ready to go!
+Just complete the 3 steps above and you'll be live.
+
+For detailed information, see: PEPTOLOGY_SETUP_GUIDE.md
+
+Good luck with your peptide business! 🚀✨
+
+═══════════════════════════════════════════════════════════════
+Last Updated: January 12, 2025
+Theme: Soft Glam
+Status: Ready for Setup ✅
+═══════════════════════════════════════════════════════════════
+

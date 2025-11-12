@@ -53,15 +53,18 @@ export function useMenu() {
       const { data, error } = await supabase
         .from('products')
         .insert([product])
-        .select()
-        .single();
+        .select();
 
       if (error) throw error;
       
-      if (data) {
-        setProducts([...products, data]);
+      // data is an array, get the first element
+      const newProduct = data && data.length > 0 ? data[0] : null;
+      
+      if (newProduct) {
+        // Refetch all products to ensure UI is in sync with database
+        await fetchProducts();
       }
-      return { success: true, data };
+      return { success: true, data: newProduct };
     } catch (err) {
       console.error('Error adding product:', err);
       return { success: false, error: err instanceof Error ? err.message : 'Failed to add product' };
@@ -70,23 +73,38 @@ export function useMenu() {
 
   const updateProduct = async (id: string, updates: Partial<Product>) => {
     try {
-      console.log('Updating product:', id, updates);
+      console.log('=== UPDATE PRODUCT START ===');
+      console.log('Product ID:', id);
+      console.log('Updates being sent:', updates);
+      console.log('Updates types:', Object.entries(updates).map(([k, v]) => `${k}: ${typeof v} = ${v}`));
+      
       const { data, error } = await supabase
         .from('products')
         .update(updates)
         .eq('id', id)
-        .select()
-        .single();
+        .select();
 
       if (error) {
         console.error('Supabase update error:', error);
         throw new Error(error.message || error.details || 'Unknown database error');
       }
       
-      if (data) {
-        setProducts(products.map(p => p.id === id ? data : p));
+      console.log('Raw data returned from Supabase:', data);
+      
+      // data is an array, get the first element
+      const updatedProduct = data && data.length > 0 ? data[0] : null;
+      
+      console.log('Updated product:', updatedProduct);
+      
+      if (updatedProduct) {
+        console.log('Fetching all products to refresh...');
+        // Refetch all products to ensure UI is in sync with database
+        await fetchProducts();
+        console.log('Products refreshed');
       }
-      return { success: true, data };
+      
+      console.log('=== UPDATE PRODUCT END ===');
+      return { success: true, data: updatedProduct };
     } catch (err) {
       console.error('Error updating product:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to update product';
@@ -103,7 +121,8 @@ export function useMenu() {
 
       if (error) throw error;
       
-      setProducts(products.filter(p => p.id !== id));
+      // Refetch all products to ensure UI is in sync with database
+      await fetchProducts();
       return { success: true };
     } catch (err) {
       console.error('Error deleting product:', err);
@@ -127,6 +146,50 @@ export function useMenu() {
     } catch (err) {
       console.error('Error adding variation:', err);
       return { success: false, error: err instanceof Error ? err.message : 'Failed to add variation' };
+    }
+  };
+
+  const updateVariation = async (id: string, updates: Partial<ProductVariation>) => {
+    try {
+      console.log('=== UPDATE VARIATION START ===');
+      console.log('Variation ID:', id);
+      console.log('Updates being sent:', updates);
+      
+      // Remove read-only fields
+      const { id: varId, created_at, product_id, ...updateData } = updates as any;
+      
+      // Ensure numeric fields are actually numbers
+      if (updateData.price !== undefined && updateData.price !== null) {
+        updateData.price = Number(updateData.price);
+      }
+      if (updateData.quantity_mg !== undefined && updateData.quantity_mg !== null) {
+        updateData.quantity_mg = Number(updateData.quantity_mg);
+      }
+      if (updateData.stock_quantity !== undefined && updateData.stock_quantity !== null) {
+        updateData.stock_quantity = Number(updateData.stock_quantity);
+      }
+      
+      const { data, error } = await supabase
+        .from('product_variations')
+        .update(updateData)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Supabase update error:', error);
+        throw new Error(error.message || 'Failed to update variation');
+      }
+      
+      console.log('Updated variation:', data);
+      
+      // Refresh products to include updated variation
+      await fetchProducts();
+      console.log('=== UPDATE VARIATION END ===');
+      return { success: true, data };
+    } catch (err) {
+      console.error('Error updating variation:', err);
+      return { success: false, error: err instanceof Error ? err.message : 'Failed to update variation' };
     }
   };
 
@@ -158,6 +221,7 @@ export function useMenu() {
     updateProduct,
     deleteProduct,
     addVariation,
+    updateVariation,
     deleteVariation
   };
 }

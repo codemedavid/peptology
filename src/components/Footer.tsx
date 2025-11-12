@@ -4,10 +4,9 @@ import { MessageCircle, Shield, Heart, Sparkles } from 'lucide-react';
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
-  // Facebook Messenger Page ID
-  const facebookPageId = '61573812453289';
-  const messengerMessage = encodeURIComponent('Hi! I would like to inquire about your peptide products.');
-  const messengerUrl = `https://m.me/${facebookPageId}?text=${messengerMessage}`;
+  // Facebook Messenger Contact
+  const messengerProfileId = '61581686398210'; // Facebook Profile ID
+  const messengerUrl = `https://m.me/${messengerProfileId}`;
 
   return (
     <footer className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
@@ -18,8 +17,8 @@ const Footer: React.FC = () => {
           {/* Brand Section */}
           <div className="flex items-center gap-3">
             <img 
-              src="/logo.jpg" 
-              alt="KAEDRA" 
+              src="/logo.jpeg" 
+              alt="Peptology by Issa" 
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg shadow-lg object-cover border-2 border-white/20"
             />
             <div className="text-center md:text-left">
@@ -31,7 +30,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Facebook Messenger Button */}
+          {/* Messenger Button */}
           <a
             href={messengerUrl}
             target="_blank"
