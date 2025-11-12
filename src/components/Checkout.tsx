@@ -124,11 +124,12 @@ Please confirm this order. Thank you!
     // Store order details in sessionStorage so we can show them on confirmation page
     sessionStorage.setItem('lastOrderDetails', orderDetails);
     
-    // Send order to Facebook Messenger
+    // Send order to Facebook Messenger with prefilled message
     const messengerProfileId = '61581686398210'; // Facebook Profile ID
-    const messengerUrl = `https://m.me/${messengerProfileId}`;
+    const encodedMessage = encodeURIComponent(orderDetails);
+    const messengerUrl = `https://m.me/${messengerProfileId}?text=${encodedMessage}`;
     
-    // Open Messenger
+    // Open Messenger with prefilled order details
     window.open(messengerUrl, '_blank');
     
     // Show confirmation
@@ -160,13 +161,13 @@ Please confirm this order. Thank you!
                 <ShieldCheck className="w-14 h-14 text-white" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-2 flex-wrap">
-                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Messenger Opened!</span>
+                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Order Sent!</span>
                 <Sparkles className="w-7 h-7 text-yellow-500" />
               </h1>
               <p className="text-gray-600 mb-6 text-base md:text-lg leading-relaxed">
-                Your order details have been copied! 
+                Your order details have been automatically sent to Messenger! 
                 <Heart className="inline w-5 h-5 text-pink-500 mx-1" />
-                Please paste them in Messenger to complete your order.
+                Just click send to complete your order.
               </p>
             </div>
 
@@ -204,7 +205,7 @@ Please confirm this order. Thank you!
               <ul className="space-y-3 text-sm md:text-base text-gray-700">
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">1️⃣</span>
-                  <span><strong>Paste your order details</strong> in the Messenger chat we just opened</span>
+                  <span><strong>Click send</strong> in the Messenger chat we just opened with your prefilled order details</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">2️⃣</span>
@@ -228,8 +229,10 @@ Please confirm this order. Thank you!
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => {
+                  const orderDetails = sessionStorage.getItem('lastOrderDetails');
                   const messengerProfileId = '61581686398210';
-                  const messengerUrl = `https://m.me/${messengerProfileId}`;
+                  const encodedMessage = orderDetails ? encodeURIComponent(orderDetails) : '';
+                  const messengerUrl = `https://m.me/${messengerProfileId}${encodedMessage ? `?text=${encodedMessage}` : ''}`;
                   window.open(messengerUrl, '_blank');
                 }}
                 className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
