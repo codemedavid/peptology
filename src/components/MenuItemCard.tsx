@@ -119,7 +119,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
 
         {/* Compact Info Badge - Fixed Height */}
         <div className="mb-1.5 sm:mb-2 md:mb-3 min-h-[20px] sm:min-h-[24px] md:min-h-[28px] flex items-start">
-          {product.inclusions && product.inclusions.length > 0 && (
+          {product.show_inclusions && product.inclusions && product.inclusions.length > 0 && (
             <span className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-primary-100 to-rosegold-100 text-rosegold-700 rounded-full text-[9px] sm:text-[10px] md:text-xs font-bold border border-primary-300">
               📦 Set ({product.inclusions.length})
             </span>

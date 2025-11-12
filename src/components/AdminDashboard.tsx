@@ -38,7 +38,8 @@ const AdminDashboard: React.FC = () => {
     stock_quantity: 0,
     image_url: null,
     discount_active: false,
-    inclusions: null
+    inclusions: null,
+    show_inclusions: false
   });
 
   const handleAddProduct = () => {
@@ -60,7 +61,8 @@ const AdminDashboard: React.FC = () => {
       stock_quantity: 0,
       image_url: null,
       discount_active: false,
-      inclusions: null
+      inclusions: null,
+      show_inclusions: false
     });
   };
 
@@ -490,6 +492,32 @@ const AdminDashboard: React.FC = () => {
                 <span className="text-sm sm:text-base md:text-lg">Complete Set Inclusions</span>
                 <span className="text-[10px] sm:text-xs font-normal text-gray-600">(Optional)</span>
               </h3>
+              
+              {/* Toggle to Show/Hide Inclusions on Frontend */}
+              <div className="mb-4 md:mb-6 pb-4 border-b-2 border-teal-200">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={formData.show_inclusions || false}
+                      onChange={(e) => setFormData({ ...formData, show_inclusions: e.target.checked })}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm md:text-base font-semibold text-gray-900">
+                      {formData.show_inclusions ? '✅ Display Inclusions on Product Page' : '❌ Hide Inclusions on Product Page'}
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      {formData.show_inclusions 
+                        ? 'Inclusions will be shown to customers as a checklist' 
+                        : 'Inclusions will not be displayed (for single items)'}
+                    </span>
+                  </div>
+                </label>
+              </div>
+              
               <div>
                 <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5 md:mb-2">
                   What's included in this set? (One item per line)

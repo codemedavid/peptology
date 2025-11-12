@@ -83,7 +83,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
               </div>
 
               {/* Complete Set Inclusions */}
-              {product.inclusions && product.inclusions.length > 0 && (
+              {product.show_inclusions && product.inclusions && product.inclusions.length > 0 && (
                 <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-teal-200 sm:border-2">
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-teal-700 mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
                     <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />

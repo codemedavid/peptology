@@ -17,6 +17,7 @@ export interface Product {
   sequence: string | null;
   storage_conditions: string;
   inclusions: string[] | null;
+  show_inclusions: boolean;
   
   // Stock and availability
   stock_quantity: number;
