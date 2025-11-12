@@ -155,13 +155,13 @@ Please confirm this order. Thank you!
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-12">
         <div className="max-w-3xl w-full">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-green-100">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-rosegold-100">
             <div className="text-center mb-8">
-              <div className="bg-gradient-to-br from-green-400 to-green-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-bounce">
+              <div className="bg-gradient-to-br from-rosegold-400 to-rosegold-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-bounce">
                 <ShieldCheck className="w-14 h-14 text-white" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-2 flex-wrap">
-                <span className="bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Order Ready to Send!</span>
+                <span className="bg-gradient-to-r from-rosegold-600 to-dustyrose-500 bg-clip-text text-transparent">Order Ready to Send!</span>
                 <Sparkles className="w-7 h-7 text-yellow-500" />
               </h1>
               <p className="text-gray-600 mb-6 text-base md:text-lg leading-relaxed">
@@ -182,8 +182,8 @@ Please confirm this order. Thank you!
                     onClick={handleCopyOrderDetails}
                     className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
                       copySuccess
-                        ? 'bg-green-500 text-white'
-                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        ? 'bg-rosegold-500 text-white'
+                        : 'bg-rosegold-500 hover:bg-rosegold-600 text-white'
                     }`}
                   >
                     {copySuccess ? '✓ Copied!' : '📋 Copy Again'}
@@ -197,7 +197,7 @@ Please confirm this order. Thank you!
               </div>
             )}
             
-            <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl p-6 mb-8 text-left border-2 border-teal-100">
+            <div className="bg-gradient-to-r from-cream-50 to-rosegold-50 rounded-2xl p-6 mb-8 text-left border-2 border-rosegold-100">
               <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                 What happens next? 
                 <Sparkles className="w-5 h-5 text-yellow-500" />
@@ -500,9 +500,9 @@ Please confirm this order. Thank you!
           {/* Payment Form */}
           <div className="lg:col-span-2 space-y-4 md:space-y-6">
             {/* Payment Method Selection */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-5 md:p-6 border-2 border-green-100">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-5 md:p-6 border-2 border-rosegold-100">
               <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
-                <div className="bg-gradient-to-br from-green-400 to-green-600 p-2 rounded-xl">
+                <div className="bg-gradient-to-br from-rosegold-400 to-rosegold-600 p-2 rounded-xl">
                   <CreditCard className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </div>
                 Payment Method
@@ -577,10 +577,10 @@ Please confirm this order. Thank you!
               />
             </div>
 
-            <button
-              onClick={handlePlaceOrder}
-              className="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
-            >
+              <button
+                onClick={handlePlaceOrder}
+                className="w-full bg-gradient-to-r from-rosegold-400 via-rosegold-500 to-rosegold-600 hover:from-rosegold-500 hover:via-rosegold-600 hover:to-dustyrose-600 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
+              >
               <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />
               Send Order via Messenger
             </button>

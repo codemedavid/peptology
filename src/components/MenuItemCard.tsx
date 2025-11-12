@@ -86,7 +86,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
 
         {/* Purity Badge */}
         <div className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 md:top-3 md:right-3">
-          <span className="inline-flex items-center px-1 py-0.5 sm:px-1.5 sm:py-0.5 md:px-2.5 md:py-1 rounded-full text-[9px] sm:text-[10px] md:text-xs font-semibold bg-green-100 text-green-700 shadow-sm sm:shadow-md">
+          <span className="inline-flex items-center px-1 py-0.5 sm:px-1.5 sm:py-0.5 md:px-2.5 md:py-1 rounded-full text-[9px] sm:text-[10px] md:text-xs font-semibold bg-rosegold-100 text-rosegold-700 shadow-sm sm:shadow-md">
             {product.purity_percentage}%
           </span>
         </div>
@@ -226,7 +226,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         </div>
 
         {/* Cart Status - Fixed Height */}
-        <div className="text-center text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-green-600 font-medium min-h-[12px] sm:min-h-[14px] md:min-h-[16px] mt-0.5 sm:mt-1">
+        <div className="text-center text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-rosegold-600 font-medium min-h-[12px] sm:min-h-[14px] md:min-h-[16px] mt-0.5 sm:mt-1">
           {cartQuantity > 0 && (
             <span>{cartQuantity} in cart</span>
           )}
