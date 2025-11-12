@@ -147,19 +147,49 @@ const AdminDashboard: React.FC = () => {
       return;
     }
 
+    if (!formData.category || categories.length === 0) {
+      alert('Please select a valid category. Add categories first if none exist.');
+      return;
+    }
+
     try {
       setIsProcessing(true);
       if (editingProduct) {
         // Remove read-only fields and relations before updating
-        const { id, created_at, updated_at, variations, ...updateData } = formData as Product;
-        const result = await updateProduct(editingProduct.id, updateData);
+        const { id, created_at, updated_at, variations, ...updateData } = formData as any;
+        
+        // Clean up the data - only remove undefined and empty strings, keep false, 0, and null
+        const cleanedData = Object.fromEntries(
+          Object.entries(updateData).filter(([key, value]) => {
+            // Keep false, 0, and null values - they are valid
+            if (value === false || value === 0 || value === null) return true;
+            // Remove undefined and empty strings
+            if (value === undefined || value === '') return false;
+            return true;
+          })
+        ) as Partial<Product>;
+        
+        console.log('Saving product with data:', cleanedData);
+        const result = await updateProduct(editingProduct.id, cleanedData);
         if (!result.success) {
           throw new Error(result.error);
         }
       } else {
         // Remove non-creatable fields for new products
-        const { variations, ...createData } = formData as any;
-        const result = await addProduct(createData as Omit<Product, 'id' | 'created_at' | 'updated_at'>);
+        const { variations, id, created_at, updated_at, ...createData } = formData as any;
+        
+        // Clean up the data - only remove undefined and empty strings, keep false, 0, and null
+        const cleanedData = Object.fromEntries(
+          Object.entries(createData).filter(([key, value]) => {
+            // Keep false, 0, and null values - they are valid
+            if (value === false || value === 0 || value === null) return true;
+            // Remove undefined and empty strings
+            if (value === undefined || value === '') return false;
+            return true;
+          })
+        );
+        
+        const result = await addProduct(cleanedData as Omit<Product, 'id' | 'created_at' | 'updated_at'>);
         if (!result.success) {
           throw new Error(result.error);
         }
@@ -167,6 +197,7 @@ const AdminDashboard: React.FC = () => {
       setCurrentView('products');
       setEditingProduct(null);
     } catch (error) {
+      console.error('Save product error:', error);
       alert(`Failed to save product: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsProcessing(false);
@@ -341,10 +372,16 @@ const AdminDashboard: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="input-field text-sm md:text-base"
                   >
+                    {categories.length === 0 && (
+                      <option value="">No categories available</option>
+                    )}
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
                     ))}
                   </select>
+                  {categories.length === 0 && (
+                    <p className="text-xs text-red-500 mt-1">⚠️ Please add categories first</p>
+                  )}
                 </div>
 
                 <div>

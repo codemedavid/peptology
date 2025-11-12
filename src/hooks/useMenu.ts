@@ -17,7 +17,6 @@ export function useMenu() {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('available', true)
         .order('featured', { ascending: false })
         .order('name', { ascending: true });
 
@@ -71,6 +70,7 @@ export function useMenu() {
 
   const updateProduct = async (id: string, updates: Partial<Product>) => {
     try {
+      console.log('Updating product:', id, updates);
       const { data, error } = await supabase
         .from('products')
         .update(updates)
@@ -78,7 +78,10 @@ export function useMenu() {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase update error:', error);
+        throw new Error(error.message || error.details || 'Unknown database error');
+      }
       
       if (data) {
         setProducts(products.map(p => p.id === id ? data : p));
@@ -86,7 +89,8 @@ export function useMenu() {
       return { success: true, data };
     } catch (err) {
       console.error('Error updating product:', err);
-      return { success: false, error: err instanceof Error ? err.message : 'Failed to update product' };
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update product';
+      return { success: false, error: errorMessage };
     }
   };
 
