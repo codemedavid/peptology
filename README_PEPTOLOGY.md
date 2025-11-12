@@ -45,7 +45,7 @@ npm run dev
 # 4. Open http://localhost:5173
 ```
 
-**Admin Access:** `http://localhost:5173/admin` (Password: `Peptide@Admin!2025`)
+**Admin Access:** `http://localhost:5173/admin` (Password: `Peptology@Admin!2025`)
 
 ---
 
@@ -150,7 +150,7 @@ Visit:
 
 ### Step 4: Configure Admin
 
-1. Login with password: `Peptide@Admin!2025`
+1. Login with password: `Peptology@Admin!2025`
 2. Upload product images
 3. Configure payment methods
 4. Update site settings

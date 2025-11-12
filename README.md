@@ -34,7 +34,7 @@ A modern, professional e-commerce platform for selling research-grade peptides. 
 - 💳 **Payment Methods** - Configure payment options
 - ⚙️ **Site Settings** - Customize site information
 - 📊 **Dashboard Analytics** - View product statistics
-- 🔐 **Secure Access** - Password protected (default: `Peptide@Admin!2025`)
+- 🔐 **Secure Access** - Password protected (default: `Peptology@Admin!2025`)
 
 ## 🗄️ Database Schema
 
@@ -204,8 +204,8 @@ supabase/
 
 ### Admin Access
 - URL: `/admin`
-- Default Password: `Peptide@Admin!2025`
-- Change password in: `src/components/AdminDashboard.tsx` (line 235)
+- Default Password: `Peptology@Admin!2025`
+- Change password in: `src/components/AdminDashboard.tsx` (line 243)
 
 ### Site Settings (Configurable in Admin)
 - Site Name

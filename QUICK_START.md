@@ -144,7 +144,7 @@ npm run dev
    - Complete order
 
 4. **Admin** - http://localhost:5173/admin
-   - Password: `Peptide@Admin!2025`
+   - Password: `Peptology@Admin!2025`
    - Manage products
    - Update prices
    - Upload images

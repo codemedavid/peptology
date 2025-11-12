@@ -124,7 +124,7 @@ Existing categories retained:
 
 3. **Access admin panel:**
    - Go to `http://localhost:5173/admin`
-   - Password: `Peptide@Admin!2025`
+   - Password: `Peptology@Admin!2025`
 
 ### Soon (Important):
 4. **Upload product images** via admin panel

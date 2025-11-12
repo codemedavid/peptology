@@ -50,7 +50,7 @@ Visit: `http://localhost:5173`
 ### Access Admin Dashboard
 
 1. Navigate to: `http://localhost:5173/admin`
-2. Default password: `Peptide@Admin!2025`
+2. Default password: `Peptology@Admin!2025`
 
 ### Change Admin Password
 

@@ -104,7 +104,7 @@ Seeded with 10 real peptides:
 
 ### AdminDashboard
 - Rebranded to "Premium Peptides Admin"
-- Password changed: `Peptide@Admin!2025`
+- Password changed: `Peptology@Admin!2025`
 - Product management (CRUD operations)
 - New product form fields:
   - Scientific details (purity, MW, CAS, sequence)
@@ -244,7 +244,7 @@ npm run dev
 
 # 4. Access admin panel
 # Navigate to http://localhost:5173/admin
-# Password: Peptide@Admin!2025
+# Password: Peptology@Admin!2025
 ```
 
 ### For Customization

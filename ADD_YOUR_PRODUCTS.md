@@ -79,7 +79,7 @@ Your products are organized as:
 
 ### Option 2: Via Admin Panel
 1. Go to `/admin`
-2. Login (password: `Peptide@Admin!2025`)
+2. Login (password: `Peptology@Admin!2025`)
 3. Click **Manage Products**
 4. Click **Edit** on any product
 5. Scroll to "Product Image" section
@@ -91,7 +91,7 @@ Your products are organized as:
 
 ### Via Admin Panel (Easiest):
 1. Visit: `http://localhost:5173/admin`
-2. Login with: `Peptide@Admin!2025`
+2. Login with: `Peptology@Admin!2025`
 3. Click **Manage Products**
 4. Edit any product:
    - Name
@@ -168,7 +168,7 @@ FROM products WHERE name = 'Tirzepatide 20mg';
 
 **Can't edit products?**
 - Make sure you're logged into admin panel
-- Password: `Peptide@Admin!2025`
+- Password: `Peptology@Admin!2025`
 
 ---
 

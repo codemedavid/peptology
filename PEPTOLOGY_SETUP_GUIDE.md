@@ -90,7 +90,7 @@ The application will be available at: `http://localhost:5173`
 ### Step 4: Admin Access
 
 - URL: `http://localhost:5173/admin`
-- Default Password: `Peptide@Admin!2025`
+- Default Password: `Peptology@Admin!2025`
 - Change this in `src/components/AdminDashboard.tsx` (line ~235)
 
 ## 🎯 Key Features
